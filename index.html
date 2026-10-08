@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বুটিক বাজার | বাংলাদেশের সেরা অনলাইন শপ</title>
+    <style>
+        :root {
+            --primary-color: #f57224; /* দারাজ স্টাইল প্রফেশনাল থিম */
+            --secondary-color: #202124;
+            --light-bg: #f4f5f6;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body { background-color: var(--light-bg); color: #333; }
+
+        /* প্রফেশনাল টপ হেডার (Daraz Style) */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .header-container {
+            max-width: 1200px; margin: 0 auto;
+            padding: 15px 20px; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .logo {
+            font-size: 26px; font-weight: 800;
+            color: var(--primary-color); text-decoration: none;
+        }
+        .cart-btn {
+            background-color: var(--primary-color); color: white;
+            padding: 10px 20px; border-radius: 4px; font-weight: bold;
+            cursor: pointer; border: none; display: flex; align-items: center; gap: 8px;
+        }
+
+        /* ব্যানার সেকশন */
+        .hero-banner {
+            max-width: 1200px; margin: 20px auto; background: linear-gradient(135deg, #ff9900, #f57224);
+            border-radius: 8px; padding: 40px; color: white; text-align: left;
+        }
+        .hero-banner h1 { font-size: 32px; margin-bottom: 10px; }
+
+        /* প্রোডাক্ট গ্যালারি */
+        .main-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .section-title { font-size: 22px; margin-bottom: 20px; font-weight: 700; border-left: 4px solid var(--primary-color); padding-left: 10px; }
+        
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;
+        }
+        .product-card {
+            background: white; border-radius: 8px; padding: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
+        .product-info { margin-top: 12px; }
+        .p-title { font-size: 15px; font-weight: 600; color: #222; min-height: 40px; }
+        .p-price { font-size: 18px; font-weight: 700; color: var(--primary-color); margin: 8px 0; }
+        
+        .buy-btn {
+            background-color: #fff1eb; color: var(--primary-color);
+            border: 1px solid var(--primary-color); width: 100%; padding: 8px;
+            border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .buy-btn:hover { background-color: var(--primary-color); color: white; }
+
+        /* কার্ট সাইডবার */
+        .sidebar {
+            position: fixed; top: 0; right: -420px; width: 400px; height: 100%;
+            background: white; box-shadow: -5px 0 25px rgba(0,0,0,0.15); z-index: 2000;
+            padding: 25px; transition: 0.3s ease; display: flex; flex-direction: column;
+        }
+        .sidebar.open { right: 0; }
+        .sidebar-header { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .close-btn { font-size: 24px; cursor: pointer; }
+        .cart-items { flex: 1; overflow-y: auto; margin-top: 15px; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f9f9f9; }
+        
+        /* পেমেন্ট ইনফো */
+        .pay-box { background: #fff8f5; border: 1px dashed var(--primary-color); padding: 12px; border-radius: 6px; font-size: 13px; margin: 15px 0; }
+        .checkout-form input, .checkout-form select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .confirm-btn { background-color: var(--primary-color); color: white; border: none; width: 100%; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+        /* গোপন অ্যাডমিন সেকশন */
+        footer { background: #222; color: #888; padding: 30px; text-align: center; margin-top: 50px; font-size: 13px; }
+        .admin-trigger { color: #444; cursor: pointer; text-decoration: none; display: block; margin-top: 15px; }
+        
+        .admin-modal {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 3000; width: 90%; max-width: 400px;
+        }
+        .admin-panel-box { display: none; }
+        .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index: 1500; }
+    </style>
+</head>
+<body>
+
+    <!-- হেডার -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">🛍️ বুটিক বাজার</a>
+            <button class="cart-btn" onclick="toggleCart()">🛒 ব্যাগ (<span id="cart-count">০</span>)</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- ব্যানার -->
+        <div class="hero-banner">
+            <h1>প্রফেশনাল শপিং এক্সপেরিয়েন্স</h1>
+            <p>সেরা মানের প্রোডাক্ট, দ্রুততম সময়ে ক্যাশ অন ডেলিভারি অথবা বিকাশ পেমেন্টে।</p>
+        </div>
+
+        <!-- প্রোডাক্ট লিস্ট -->
+        <h2 class="section-title">আজকের ধামাকা অফার</h2>
+        <div class="products-grid" id="productsContainer">
+            <!-- জাভাস্ক্রিপ্ট লাইভ প্রোডাক্ট জেনারেট করবে -->
+        </div>
+    </div>
+
+    <!-- শপিং কার্ট সাইডবার -->
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="sidebar" id="cartSidebar">
+        <div class="sidebar-header">
+            <h2>আপনার শপিং ব্যাগ</h2>
+            <span class="close-btn" onclick="toggleCart()">✕</span>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div style="font-size: 18px; font-weight: bold; margin: 15px 0; display: flex; justify-content: space-between;">
+            <span>সর্বমোট বিল:</span>
+            <span>৳ <span id="totalPrice">০</span></span>
+        </div>
+
+        <!-- পেমেন্ট গেটওয়ে তথ্য -->
+        <div class="pay-box">
+            📌 <b>ম্যানুয়াল পেমেন্ট ইনফো:</b><br>
+            বিকাশ (Personal): <b>01577783621</b><br>
+            নগদ (Personal): <b>01577783621</b><br><br>
+            প্রথমে উপরোক্ত নাম্বারে সর্বমোট টাকা সেন্ডমানি করুন। এরপর নিচে পেমেন্টের তথ্য দিয়ে অর্ডার সম্পন্ন করুন।
+        </div>
+
+        <!-- কাস্টমার ফর্ম -->
+        <div class="checkout-form">
+            <input type="text" id="custName" placeholder="আপনার নাম লিখুন">
+            <input type="text" id="custPhone" placeholder="মোবাইল নাম্বার">
+            <input type="text" id="custAddress" placeholder="পূর্ণ ঠিকানা">
+            <select id="payMethod">
+                <option value="">পেমেন্ট মেথড</option>
+                <option value="bKash">বিকাশ (bKash)</option>
+                <option value="Nagad">নগদ (Nagad)</option>
+            </select>
+            <input type="text" id="txnId" placeholder="TrxID (ট্রানজেকশন আইডি)">
+            <button class="confirm-btn" onclick="sendOrder()">✅ অর্ডার প্লেস করুন</button>
+        </div>
+    </div>
+
+    <!-- গোপন অ্যাডমিন প্যানেল মোডাল -->
+    <div class="admin-modal" id="adminModal">
+        <div id="adminLoginBox">
+            <h3 style="margin-bottom: 15px;">🔒 অ্যাডমিন লগইন</h3>
+            <input type="email" id="adminEmail" placeholder="অ্যাডমিন জিমেইল" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input type="password" id="adminPass" placeholder="পাসওয়ার্ড" style="width:100%; padding:10px; margin-bottom:15px;">
+            <button onclick="checkAdminLogin()" class="confirm-btn">লগইন</button>
+        </div>
+        
+        <!-- লগইন সফল হলে এই কন্ট্রোল প্যানেলটি আসবে -->
+        <div id="adminPanelBox" class="admin-panel-box">
+            <h3 style="color: var(--primary-color); margin-bottom: 15px;">🛠️ প্রোডাক্ট কন্ট্রোল প্যানেল</h3>
+            <div id="adminProductList"></div>
+            <button onclick="closeAdminModal()" style="margin-top:15px; background:#444;" class="confirm-btn">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- ফুটার -->
+    <footer>
+        <p>© 2026 বুটিক বাজার লিমিটেড। সর্বস্বত্ব সংরক্ষিত।</p>
+        <!-- একদম নিচে লুকানো বাটন অ্যাডমিন প্যানেলের জন্য -->
+        <span class="admin-trigger" onclick="openAdminModal()">[ অ্যাডমিন লগইন ]</span>
+    </footer>
+
+    <script>
+        // ডিফল্ট প্রোডাক্ট ডেটা
+        const defaultProducts = [
+            { id: 1, name: "দারাজ স্পেশাল প্রিমিয়াম জুতো", price: 1200, img: "https://unsplash.com" },
+            { id: 2, name: "স্মার্ট ওয়াচ ফিটনেস ট্র্যাকার (Series 7)", price: 2500, img: "https://unsplash.com" },
+            { id: 3, name: "প্রো ওয়ারলেস ব্লুটুথ হেডফোন", price: 1500, img: "https://unsplash.com" },
+            { id: 4, name: "লাক্সারি জেন্টস চামড়ার ওয়ালেট", price: 650, img: "https://unsplash.com" }
+        ];
+
+        // ব্রাউজার স্টোরেজ (LocalStorage) থেকে ডেটা নেওয়া বা সেট করা
+        let products = JSON.parse(localStorage.getItem('shop_products'));
+        if (!products) {
+            products = defaultProducts;
+            localStorage.setItem('shop_products', JSON.stringify(products));
+        }
+
+        let cart = [];
+        const WHATSAPP_NUM = "8801577783621"; // আপনার ওয়াটসঅ্যাপ নাম্বার
+
